@@ -1,0 +1,115 @@
+                        DATA MIGRATION TOOL
+                        
+Abstract:  The Data Migration tool is a general purpose ETL (Extract-Transform-Load) tool for
+transforming incoming structured data sources into other logical formats.  It has extensible
+provisions for accepting data sources in multiple physical and logical formats, and permits 
+end-user authoring of transformation logic, which can scrub incoming data, enforce business 
+rules, and do N-1 source to destination column conversions.
+
+Details:  Data, out in the wild, is found in almost every conceivable logical and physical
+format.  It is stored in RDMBS's, in legacy systems that predate the RDMS revolution, and in
+more modern noSql formats.  The Data Migration tool is an adapter that facilitates authoring
+a migration plan that manages the 'impedance mismatch' between a source format, and a desired
+destination format.   There are multiple places for users to extend the tool to make this 
+possible.  Right now, it only has a ParameterizedDelimiterParser, which expects inputs in the 
+form of text files with one row per line, with some delimiter between columns.   However, as an
+example, the IParser interface is exposed, and can be implemented to support nearly any data
+source, as long as it can be modelled as rows that are returned one at a time.  Similarly, by
+default the engine looks to Amazon S3 to find the feed files, but it can be made to use feed
+files in any local or remote location by implementing IFeedAccess.  There are many more
+exposed extensibility hooks; all of this is described by the DataMigrationPlan, which is an XML
+document that declaratively describes the entire process for the MigrationEngine to execute.
+
+Source of data to process are expressed as DataSourcePlans within the DataMigrationPlan.  Each
+data source is assigned a string datasourcecode (by convention, a 3 letter code), and they are
+processed sequentially by the MigrationEngine (parallel task processing to be added if the need
+ever arises).  
+
+For each datasource, processing begins by 1 or more feed 'files' being located at some 
+location, with 'drop', 'current', and 'archive' sub-containers (whether these are physical 
+folders, or S3 buckets, or keys to a Redis server, or something else is determined by the 
+IFeedAccess implementation being used).  The MigrationEngine (as directed by the MigrationPlan) 
+will use the FeedManager object, which uses the FeedAccess object to determine if all the feed 
+entities (as defined in the MigrationPlan) are present in the drop directory, and if at least 
+one of them is newer than the ones in the 'current' area (if a 'file' is present in the 'drop'
+area and absent in the 'current' area, that also qualifies), then it concludes that processing
+needs to be done.  
+
+The Feed itself is described as multiple FeedFilePlans within the DataSourcePlan.  Each 
+FeedFilePlan describes its own parser with the fully-qualified-assembly name of a C# class that
+implements the IParser interface.  The parser is instantiated and used to return raw rows to
+the FeedProcessor, in the form of an array of strings.  The FeedProcessor will use a 
+RowProcessor object to transform that row into the desired destination format as described by
+the TransformationMappings in the FeedFilePlan.  There is a single TransformationMapping for 
+each destination 'column' required by the destination format described in the FeedFilePlan.
+
+A Transformation mapping describes how to produce a single desination column item of data.  It
+can take a single source column data item and simply propagate it to the destination, or it can 
+use use it as a key to an ILookup object to do a simple mapping, and put that in the 
+destination.   It can also take 
+1-N source column data items (the 'SrcColumns' attribute in the TransformationMapping Xml 
+expects a comma-separated string), pass it to a Transformation Function (as specified by the 
+'xForm' attribute in the TransformationMap, and put the result in the desired destination.  
+In addition, an ILookup can be interposed between the raw source column data items and the 
+TransformationFunction inputs.   
+
+TransformationFunctions (Xform's) are provided by implementations of IMethodResolver.  The 
+specific MethodResolver desired for a given TransformationMap are specified by the 'xFormTag'
+attribute, in a TransformationMap, e.g.:
+
+<mapping destCol="SignedUpOn_Site_Id" srcColumns="11" xform="ClubCodeToSiteId" xformTag="cx" 
+type="int">
+
+In this case, we are talking about taking the data from the 11th object (0-relative) of the
+array that came back from the parser, and using it to call a function called 'ClubCodeToSiteId'
+which is found in a MethodResolver identified by the tag 'cx'.  Earlier in the 
+DataMigrationPlan, 'cx' is defined as:
+
+<methodResolver>
+    <tag>cx</tag>
+    <assembly>DataMigration.CompiledXforms, DataMigration, Version=1.0.5158.30206, 
+                Culture=neutral, PublicKeyToken=null</assembly>
+</methodResolver>
+
+Right now, only this single IMethodResolver implementation (CompiledXforms) exists.  As with
+most of the interfaces in this project, this is extensible, and multiple implementations can
+be made.  They don't have to be compiled in, support for text file on-the-fly scripting is
+possible for any .NET lenguage using CodeDom.Compiler, or using a JavaScript interpreter like
+Jint (http://jint.codeplex.com/).  This facilitates adding transformation functions without
+rebuilding and redeploying the C# codebase; it's not clear if this support is needed or 
+desirable as yet.  
+
+Prior to processing the feed files, the FeedProcessor obtains a unique loadnumber from the
+IFeedStager instance specified by the plan.  The FeedProcessor processes rows in batches 
+(the current plan has it set to 1000 rows per batch), and at each batch, it uses an IFeedStager 
+interface to stage the the data.  This is implemented right now by the SqlBulkStager object, 
+which stages the data to a Sql Server table. It can optionally use SqlBulkCopy, or insert the 
+data row by row.  Again, this is an exposed area of extensibility; IFeedStager could be 
+implemented by MySql or really any sort of persistent (or even in-memory) store.  
+
+Subsequent to staging the data, the configured IPostProcessor interfaces are invoked with the
+loadnumber (so it can distinguish multiple staged loads), and performs any subsequent 
+processing and final insertions into the desired destination.  In the case of the NAMG User
+Migration project, it will do insertions to the Member table, in the MemberToProduct table,
+the OriginalEmail table, the MemberExternalIdentifier table, and also to a pair of tables on 
+the forums database where the form post counts are recorded.  It also will produce a table of
+email addresses with additional for folks on the NAMG side to perform additional processes on
+as defined by Product Management (e.g. sending an email to a user whose username couldn't be 
+accepted, as an example).  These are all details specific to the IPostProcessor-implementing
+class.   There can be N PostProcessors for each DataSourcePlan, so (as an example), in theory 
+we could send data to a SQL Server and a Redis cluster simultaneously, or to MongoDb
+or Cassandra, or ElasticSearch, or...
+
+
+
+
+
+
+
+
+
+
+
+
+
+

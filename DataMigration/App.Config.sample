@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+   <appSettings>
+       <add key="MigrationPlan" value="DataMigrationPlan.xml"/>
+       <add key="AWSAccessKey" value="AWS ACCESS KEY" />
+       <add key="AWSSecretAccessKey" value="AWS SECRET ACCESS KEY" />
+       <add key="ConnectionString" value="SQL Server Connect String" />
+       <add key="ForumsConnectionString" value="SQL Server Connection String for Forums database" />
+       <add key="RecruitingConnectionString" value="SQL Server Connection String for Recruiting database" />
+   </appSettings>
+</configuration>

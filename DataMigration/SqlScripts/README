@@ -1,0 +1,4 @@
+These scripts are examples of using Sql Server to implement IFeedStager.  This is 'outer later' code, and is for example only.  
+The core engine cares not at all what kind of technology is used to implement the Feed Stager.
+
+

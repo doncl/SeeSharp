@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataMigration>
+    <readyToUseSubPlans>
+        <readyToUseSubPlan>  
+            <!-- This is a simple subplan that just establishes all the stuff that we use every time -->
+            <tag>BasePlan</tag>
+            <feedManager>DataMigration.FeedManager, DataMigration, Version=1.0.5158.30206, Culture=neutral, PublicKeyToken=null</feedManager>
+            <feedAccessor>DataMigration.S3FeedAccessor, DataMigration, Version=1.0.5158.30206, Culture=neutral, PublicKeyToken=null</feedAccessor>
+            <feedStager>
+                <assembly>DataMigration.SqlDataStager, DataMigration, Version=1.0.5158.30206, Culture=neutral, PublicKeyToken=null</assembly>
+                <name>Sql Data Stager</name>
+                <properties>
+                    <property name="useBulkCopy" value="true">
+                    </property>
+                    <property name ="useTaskLibrary" value="false">
+                    </property>
+                    <property name="taskDelayMilliseconds" value="5">
+                    </property>
+                    <property name="TdsVersionForSqlServer" value="7.0" >
+                    </property>
+                </properties>
+            </feedStager>
+            <phaseLogger>
+                <assembly>DataMigration.SqlPhaseLogger, DataMigration, Version=1.0.5158.30206, Culture=neutral, PublicKeyToken=null</assembly>
+                <name>Sql Phase Logger</name>
+                <properties>
+                    <property name="connectionKey" value="ConnectionString" />
+                    <property name="tableName" value="DataMigrationPhaseLog" />
+                </properties>
+            </phaseLogger>
+        </readyToUseSubPlan>
+        <readyToUseSubPlan>
+            <tag>SimpleTabDelimitedFeed</tag>
+            <feedManager>DataMigration.FeedManager, DataMigration, Version=1.0.5158.30206, Culture=neutral, PublicKeyToken=null</feedManager>
+            <feedAccessor>DataMigration.S3FeedAccessor, DataMigration, Version=1.0.5158.30206, Culture=neutral, PublicKeyToken=null</feedAccessor>
+            <feedStager>
+                <assembly>DataMigration.SqlDataStager, DataMigration, Version=1.0.5158.30206, Culture=neutral, PublicKeyToken=null</assembly>
+                <name>Sql Data Stager</name>
+                <properties>
+                    <property name="useBulkCopy" value="true">
+                    </property>
+                    <property name ="useTaskLibrary" value="false">
+                    </property>
+                    <property name="taskDelayMilliseconds" value="5">
+                    </property>
+                    <property name="TdsVersionForSqlServer" value="7.0" >
+                    </property>
+                </properties>
+            </feedStager>
+            <phaseLogger>
+                <assembly>DataMigration.SqlPhaseLogger, DataMigration, Version=1.0.5158.30206, Culture=neutral, PublicKeyToken=null</assembly>
+                <name>Sql Phase Logger</name>
+                <properties>
+                    <property name="connectionKey" value="ConnectionString" />
+                    <property name="tableName" value="DataMigrationPhaseLog" />
+                </properties>
+            </phaseLogger>
+            <parser>
+                <assembly>DataMigration.ParameterizedDelimiterParser, DataMigration, Version=1.0.5158.30236, Culture=neutral, PublicKeyToken=null</assembly>
+                <name>Parameterized Delimiter Parser</name>
+                <properties>
+                    <property name="delimiter" value="\t">
+                    </property>
+                </properties>
+            </parser>
+            <postProcessors>
+            </postProcessors>            
+        </readyToUseSubPlan>
+        <readyToUseSubPlan>
+            <tag>TabDelimitedUsersAndSubscriptions</tag>
+            <feedManager>DataMigration.FeedManager, DataMigration, Version=1.0.5158.30206, Culture=neutral, PublicKeyToken=null</feedManager>
+            <feedAccessor>DataMigration.S3FeedAccessor, DataMigration, Version=1.0.5158.30206, Culture=neutral, PublicKeyToken=null</feedAccessor>
+            <feedStager>
+                <assembly>DataMigration.SqlDataStager, DataMigration, Version=1.0.5158.30206, Culture=neutral, PublicKeyToken=null</assembly>
+                <name>Sql Data Stager</name>
+                <properties>
+                    <property name="useBulkCopy" value="true">
+                    </property>
+                    <property name ="useTaskLibrary" value="false">
+                    </property>
+                    <property name="taskDelayMilliseconds" value="5">
+                    </property>
+                    <property name="TdsVersionForSqlServer" value="7.0" >
+                    </property>
+                </properties>
+            </feedStager>
+            <phaseLogger>
+                <assembly>DataMigration.SqlPhaseLogger, DataMigration, Version=1.0.5158.30206, Culture=neutral, PublicKeyToken=null</assembly>
+                <name>Sql Phase Logger</name>
+                <properties>
+                    <property name="connectionKey" value="ConnectionString" />
+                    <property name="tableName" value="DataMigrationPhaseLog" />
+                </properties>
+            </phaseLogger>
+            <parser>
+                <assembly>DataMigration.ParameterizedDelimiterParser, DataMigration, Version=1.0.5158.30236, Culture=neutral, PublicKeyToken=null</assembly>
+                <name>Parameterized Delimiter Parser</name>
+                <properties>
+                    <property name="delimiter" value="\t">
+                    </property>
+                </properties>
+            </parser>
+            <postProcessors>
+                <!-- Business-Proprietary post processors have been removed here. -->
+            </postProcessors>            
+        </readyToUseSubPlan>
+        <readyToUseSubPlan>
+            <tag>SimpleCsvFeed</tag>
+            <feedManager>DataMigration.FeedManager, DataMigration, Version=1.0.5158.30206, Culture=neutral, PublicKeyToken=null</feedManager>
+            <feedAccessor>DataMigration.S3FeedAccessor, DataMigration, Version=1.0.5158.30206, Culture=neutral, PublicKeyToken=null</feedAccessor>
+            <feedStager>
+                <assembly>DataMigration.SqlDataStager, DataMigration, Version=1.0.5158.30206, Culture=neutral, PublicKeyToken=null</assembly>
+                <name>Sql Data Stager</name>
+                <properties>
+                    <property name="useBulkCopy" value="true">
+                    </property>
+                    <property name ="useTaskLibrary" value="false">
+                    </property>
+                    <property name="taskDelayMilliseconds" value="5">
+                    </property>
+                    <property name="TdsVersionForSqlServer" value="7.0" >
+                    </property>
+                </properties>
+            </feedStager>
+            <phaseLogger>
+                <assembly>DataMigration.SqlPhaseLogger, DataMigration, Version=1.0.5158.30206, Culture=neutral, PublicKeyToken=null</assembly>
+                <name>Sql Phase Logger</name>
+                <properties>
+                    <property name="connectionKey" value="ConnectionString" />
+                    <property name="tableName" value="DataMigrationPhaseLog" />
+                </properties>
+            </phaseLogger>
+            <parser>
+                <assembly>DataMigration.CsvParser, DataMigration, Version=1.0.5158.30236, Culture=neutral, PublicKeyToken=null</assembly>
+                <name>Csv Parser</name>
+            </parser>
+            <postProcessors>
+                <!-- Business-Proprietary post processors have been removed here. -->
+                <postProcessor>
+                    <assembly>DataMigration.BadRowsOutboundFeed, DataMigration, Version=1.0.5158.30206, Culture=neutral, PublicKeyToken=null</assembly>
+                    <properties>
+                        <property name="connectionKey" value="ConnectionString">
+                        </property>
+                    </properties>
+                </postProcessor>                
+            </postProcessors>
+        </readyToUseSubPlan>
+        <readyToUseSubPlan>
+            <tag>SimpleCsvNoPostProcess</tag>
+            <feedManager>DataMigration.FeedManager, DataMigration, Version=1.0.5158.30206, Culture=neutral, PublicKeyToken=null</feedManager>
+            <feedAccessor>DataMigration.S3FeedAccessor, DataMigration, Version=1.0.5158.30206, Culture=neutral, PublicKeyToken=null</feedAccessor>
+            <feedStager>
+                <assembly>DataMigration.SqlDataStager, DataMigration, Version=1.0.5158.30206, Culture=neutral, PublicKeyToken=null</assembly>
+                <name>Sql Data Stager</name>
+                <properties>
+                    <property name="useBulkCopy" value="true">
+                    </property>
+                    <property name ="useTaskLibrary" value="false">
+                    </property>
+                    <property name="taskDelayMilliseconds" value="5">
+                    </property>
+                    <property name="TdsVersionForSqlServer" value="7.0" >
+                    </property>
+                </properties>
+            </feedStager>
+            <phaseLogger>
+                <assembly>DataMigration.SqlPhaseLogger, DataMigration, Version=1.0.5158.30206, Culture=neutral, PublicKeyToken=null</assembly>
+                <name>Sql Phase Logger</name>
+                <properties>
+                    <property name="connectionKey" value="ConnectionString" />
+                    <property name="tableName" value="DataMigrationPhaseLog" />
+                </properties>
+            </phaseLogger>
+            <parser>
+                <assembly>DataMigration.CsvParser, DataMigration, Version=1.0.5158.30236, Culture=neutral, PublicKeyToken=null</assembly>
+                <name>Csv Parser</name>
+            </parser>
+        </readyToUseSubPlan>
+    </readyToUseSubPlans>
+    <localFilePathRoot>workDir</localFilePathRoot>
+    <methodResolvers>
+        <methodResolver>
+            <tag>cx</tag>
+            <assembly>DataMigration.CompiledXforms, DataMigration, Version=1.0.5158.30206, Culture=neutral, PublicKeyToken=null</assembly>
+        </methodResolver>
+    </methodResolvers>
+    <litmusTestResolvers>
+        <methodResolver>
+            <tag>cx</tag>
+            <assembly>DataMigration.CompiledXforms, DataMigration, Version=1.0.5158.30206, Culture=neutral, PublicKeyToken=null</assembly>
+        </methodResolver>
+    </litmusTestResolvers>
+    <postRowProcessorResolvers>
+        <methodResolver>
+            <tag>cx</tag>
+            <assembly>DataMigration.CompiledXforms, DataMigration, Version=1.0.5158.30206, Culture=neutral, PublicKeyToken=null</assembly>
+        </methodResolver>
+    </postRowProcessorResolvers>    
+    <lookups>
+      <!-- Business-Proprietary lookups have been removed here. -->                
+
+      <lookup>
+        <!-- SAMPLE CODE - this shows a lookup where a Sql table called 'Member' exists, and
+        each row has an 'Id' and 'Email' column.  It generates an in-memory ILookup object
+        for use by the rowprocessor. -->  
+        <name>EmailsInMemberTable</name>
+        <assembly>DataMigration.SqlQueryDrivenLookup, DataMigration, Version=1.0.5158.30206, Culture=neutral, PublicKeyToken=null</assembly>
+        <properties>
+          <property name="connectionKey" value="ConnectionString" />
+          <property name="queryText" value="select DISTINCT Email, Id from [dbo].[Member] 
+                          where Email is not NULL and Email &lt;&gt; ''" />
+          <property name="keyName" value="Email" />
+          <property name="valueName" value="Id" />
+        </properties>
+      </lookup>
+    </lookups>
+    <existences>
+        <!-- Business-Proprietary existence objects have been removed here. -->
+        <existence>
+            <!-- SAMPLE CODE - this shows a hypothetical existence object declaration, positing
+            a 'Member' table with a 'Username' column.  It will produce an in-memory 
+            IExistence object aclled 'UsernamesInUse', for use by the row processor.-->
+            <name>UsernamesInUse</name>
+            <assembly>DataMigration.SqlQueryDrivenExistence, DataMigration, Version=1.0.5158.30206, Culture=neutral, PublicKeyToken=null</assembly>
+            <properties>
+                <property name="connectionKey" value="ConnectionString" />
+                <property name="queryText" value="select DISTINCT Username from [dbo].[Member] 
+                          where Username is not NULL" />
+                <property name="itemName" value="Username" />
+            </properties>
+        </existence>
+        <existence>
+            <!-- SAMPLE CODE - this builds an empty IExistence object, named 'UsernamesSoFar'.
+            The example here posits an incoming data source with username data attributes, and
+            the hypothetical business need is that duplicate usernames need to be detected.
+            Presumably, a PostRowProcessor would be written to add the existing names found to
+            this object, such that on processing of each new row/entity, it can be easily
+            detected if the username has already been seen.  Most likely this would be 
+            managed by a LitmusTest/PostRowProcessor pair.  The PostRowProcessor would add
+            the username to the IExistence object at the successfull conclusion of processing
+            each row, and the LitmusTest, which is invoked prior to processing each row, would
+            detect that the username already exists, and throw the incoming new row into the
+            BadRows collection.-->
+            <name>UsernamesSoFar</name>
+            <assembly>DataMigration.PlanDrivenExistence, DataMigration, Version=1.0.5158.30206, Culture=neutral, PublicKeyToken=null</assembly>
+            <properties>
+            </properties>
+        </existence>
+    </existences>
+    <!-- DataSources have been removed here.-->
+</dataMigration>
