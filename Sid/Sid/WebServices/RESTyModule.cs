@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sid.Declarations;
+using RESTy.Declarations;
 
-namespace Sid.WebServices
+namespace RESTy.WebServices
 {
     /// <summary>
     /// The base class for classes that implement Restful services for the Scout Api.
