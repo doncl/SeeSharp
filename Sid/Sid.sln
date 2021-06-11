@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sid", "Sid\Sid.csproj", "{76534A52-871B-4EE6-AFAC-56C0E8C1E83F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RESTy", "RESTy\RESTy.csproj", "{76534A52-871B-4EE6-AFAC-56C0E8C1E83F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sid.Tests", "Sid.Tests\Sid.Tests.csproj", "{EF514A99-36B6-4738-939F-22D73D1C5A75}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RESTy.Tests", "RESTy.Tests\RESTy.Tests.csproj", "{EF514A99-36B6-4738-939F-22D73D1C5A75}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

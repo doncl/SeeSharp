@@ -1,10 +1,10 @@
-# Sid is a very lightweight C# RESTful framework.
+# RESTy is a very lightweight C# RESTful framework.
 It works on both Mono and .NET, with Mono/Linux being the primary intended target.
 To create an endpoint:
 
-0.  Create a subclass of SidModule.
+0.  Create a subclass of RESTyModule.
 1.  Give your class a RootPath attribute (see TestModule.cs).
-2.  Add method/endpoint(s).  Do NOT declare them as public, or Sid won't use them.
+2.  Add method/endpoint(s).  Do NOT declare them as public, or RESTy won't use them.
 3.  Use the various attributes (Get, Put, Post, etc.) implemented in the Declarations subdirectory to 
     fully describe a route for your endpoint(s).  
 4.  Your endpoint(s) can take arguments as 
